@@ -43,39 +43,25 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
       return;
     }
 
-
-
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
         return_url: `http://localhost:3000/payment-success?amount=${amount}`,
       },
-    })
+    });
 
-
-
-    if(error) {
-     setErrorMessage(error.message);
-    } else {
-      
-    }
-    setLoading(false)
-
-
-
+    // if (error) {
+    //   setErrorMessage(error.message);
+    // } else {
+    // }
+    // setLoading(false);
   };
 
-
-
-
-
-  if(!stripe || !clientSecret || !elements) {
-    return (
-      <div className="flex items-center justify-center">
-
-      </div>
-    )
+  if (!stripe || !clientSecret || !elements) {
+    return <div className="flex items-center justify-center">
+      Loading...
+    </div>;
   }
 
   return (
@@ -83,7 +69,12 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
       {clientSecret && <PaymentElement />}
 
       {errorMessage && <div>{errorMessage}</div>}
-      <button className="py-3 mt-6 rounded-lg bg-black w-36">Pay</button>
+      <button
+        disabled={!stripe || !loading}
+        className="py-3 mt-6 rounded-lg bg-black w-36 cursor-pointer text-white font-semibold"
+      >
+        {!loading ? `Pay $${amount} ` : "Processing..."}
+      </button>
     </form>
   );
 };
