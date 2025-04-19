@@ -70,7 +70,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
 
       {errorMessage && <div>{errorMessage}</div>}
       <button
-        disabled={!stripe || !loading}
+        disabled={!stripe || loading}
         className="py-3 mt-6 rounded-lg bg-black w-36 cursor-pointer text-white font-semibold"
       >
         {!loading ? `Pay $${amount} ` : "Processing..."}
